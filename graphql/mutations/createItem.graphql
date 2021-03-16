@@ -1,0 +1,5 @@
+mutation CreateItem($title: String!, $content: String) {
+  addItem(item: { title: $title, content: $content }) {
+    id
+  }
+}

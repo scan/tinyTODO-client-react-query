@@ -1,0 +1,17 @@
+schema: http://localhost:8080/graphql
+documents: "graphql/**/*.graphql"
+generates:
+  ./src/api.ts:
+    plugins:
+      - add:
+          content: '/* eslint-disable */'
+      - typescript
+      - typescript-operations
+      - typescript-react-query
+    config:
+      immutableTypes: true
+      useTypeImports: true
+      maybeValue: T | undefined
+      scalars:
+        Time: Date
+        Cursor: unknown

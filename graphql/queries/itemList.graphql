@@ -1,0 +1,19 @@
+query ItemList($count: Int! = 5, $cursor: Cursor) {
+  items(first: $count, after: $cursor) {
+    edges {
+      node {
+        id
+        ...ListItem
+      }
+    }
+    pageInfo {
+      endCursor
+      hasNextPage
+    }
+  }
+}
+
+fragment ListItem on Item {
+  title
+  content
+}
