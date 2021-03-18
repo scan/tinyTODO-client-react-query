@@ -9,9 +9,12 @@ import Item from "./Item";
 import CreateItemButton from "./CreateItemButton";
 
 const ItemList: React.FC = () => {
-  const [result, refetch] = useItemListQuery();
-
-  const { data, fetching: loading, error } = result;
+  const {
+    data,
+    isFetching: loading,
+    error,
+    refetch
+  } = useItemListQuery();
 
   const handleLoadMore = React.useCallback(
     (event: React.MouseEvent) => {
@@ -43,7 +46,7 @@ const ItemList: React.FC = () => {
             </Grid>
           ))}
         </Grid>
-        {data?.items?.pageInfo.hasNextPage && (
+        {data.items.pageInfo.hasNextPage && (
           <Grid item>
             <Button fullWidth onClick={handleLoadMore} disabled={loading}>
               Load more

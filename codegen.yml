@@ -1,7 +1,7 @@
 schema: http://localhost:8080/graphql
 documents: "graphql/**/*.graphql"
 generates:
-  ./src/api.ts:
+  ./src/api/generated.ts:
     plugins:
       - add:
           content: '/* eslint-disable */'
@@ -15,3 +15,9 @@ generates:
       scalars:
         Time: Date
         Cursor: unknown
+      pureMagicComment: true
+      fetcher:
+        endpoint: 'http://localhost:8080/graphql'
+        fetchParams:
+          headers:
+            Content-Type: 'application/json'

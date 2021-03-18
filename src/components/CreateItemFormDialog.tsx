@@ -8,6 +8,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+
 import { useCreateItemMutation } from "~/api";
 
 interface FormData {
@@ -21,33 +22,21 @@ interface Props {
   onSuccess?: () => void;
 }
 
-const CREATE_ITEM_MUTATION = gql`
-  mutation CreateItem($title: String!, $content: String) {
-    addItem(item: { title: $title, content: $content }) {
-      id
-    }
-  }
-`;
-
 const CreateItemFormDialog: React.FC<Props> = ({
   open,
   onClose,
   onSuccess,
 }) => {
   const { register, handleSubmit, errors } = useForm<FormData>();
-  const [createItemResult, createItem] = useCreateItemMutation();
+  const { isLoading, mutateAsync: createItem } = useCreateItemMutation();
 
   const startCreate = useCallback(
     async (formData: FormData) => {
-      const { data, error: apiError } = await createItem({
+      const data = await createItem({
         ...formData,
       });
 
-      if (apiError) {
-        console.error(apiError);
-      }
-
-      if (data) {
+      if (data.addItem?.id) {
         if (onSuccess) {
           onSuccess();
         }
@@ -103,14 +92,14 @@ const CreateItemFormDialog: React.FC<Props> = ({
             onClick={onClose}
             color="secondary"
             tabIndex={-1}
-            disabled={createItemResult.fetching}
+            disabled={isLoading}
           >
             Cancel
           </Button>
           <Button
             type="submit"
             color="primary"
-            disabled={createItemResult.fetching}
+            disabled={isLoading}
           >
             Create
           </Button>

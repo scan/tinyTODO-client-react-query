@@ -16,4 +16,5 @@ query ItemList($count: Int! = 5, $cursor: Cursor) {
 fragment ListItem on Item {
   title
   content
+  createdAt
 }
